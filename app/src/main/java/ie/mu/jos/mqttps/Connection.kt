@@ -35,7 +35,7 @@ class Connection(private val context: Context) {
                 client!!.setCallback(object : MqttCallback {
 
                     override fun connectionLost(cause: Throwable) {
-                        logFailure("Lost Connection", null, cause)
+                        logFailure("Lost Connection", exception = cause)
                         //TODO (jos) monitor this behaviour - should I connect again?
                     }
 
@@ -66,13 +66,10 @@ class Connection(private val context: Context) {
 
     }
 
-    private fun logFailure(action: String, asyncActionToken: IMqttToken?, exception: Throwable) {
-        if (asyncActionToken != null) {
-            Toast.makeText(this.context, "Problem: $action to $asyncActionToken", Toast.LENGTH_LONG).show()
-            Log.e(TAG, "Issues $action to $asyncActionToken")
-        } else {
-            Toast.makeText(this.context, "Problem: " + action, Toast.LENGTH_LONG).show()
-        }
+    private fun logFailure(action: String, asyncActionToken: IMqttToken? = null, exception: Throwable) {
+        Toast.makeText(this.context, "Problem: $action to $asyncActionToken", Toast.LENGTH_LONG).show()
+        Log.e(TAG, "Issues $action to $asyncActionToken")
+        Toast.makeText(this.context, "Problem: " + action, Toast.LENGTH_LONG).show()
         Log.e(TAG, "Issues " + action + " to " + exception.message)
     }
 
