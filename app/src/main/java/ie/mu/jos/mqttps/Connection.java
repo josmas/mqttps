@@ -43,6 +43,8 @@ public class Connection {
 
                     @Override
                     public void connectionLost(Throwable cause) {
+                        logFailure("Lost Connection", null, cause);
+                        //TODO (jos) monitor this behaviour - should I connect again?
                     }
 
                     @Override
@@ -75,8 +77,13 @@ public class Connection {
     }
 
     private void logFailure(String action, IMqttToken asyncActionToken, Throwable exception) {
-        Toast.makeText(this.context, "Problem " + action + " to " + asyncActionToken, Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Issues " + action + " to " + asyncActionToken);
+        if (asyncActionToken != null){
+            Toast.makeText(this.context, "Problem: " + action + " to " + asyncActionToken, Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Issues " + action + " to " + asyncActionToken);
+        }
+        else {
+            Toast.makeText(this.context, "Problem: " + action, Toast.LENGTH_LONG).show();
+        }
         Log.e(TAG, "Issues " + action + " to " + exception.getMessage());
     }
 
