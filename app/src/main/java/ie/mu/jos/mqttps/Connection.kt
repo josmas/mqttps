@@ -73,9 +73,9 @@ class Connection(private val context: Context) {
         Log.e(TAG, "Issues " + action + " to " + exception.message)
     }
 
-    internal fun subscribe(jos_test: String, i: Int) {
+    internal fun subscribe(topic: String, qosLevel: Int) {
         try {
-            client!!.subscribe("jos_test", 1, null, object : IMqttActionListener {
+            client!!.subscribe(topic, qosLevel, null, object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
                     Log.i(TAG, "ALL IS GOOD subscribing to " + asyncActionToken)
                 }
